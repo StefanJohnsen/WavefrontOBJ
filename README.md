@@ -10,6 +10,10 @@ This project is designed to be compatible with C++11 and utilizes solely C++ Sta
 
 *If you require the use of **C++98**, see [Wavefront98](https://github.com/StefanJohnsen/Wavefront98) repository.
 
+### Need a Wavefront Material Template Library (MTL) parser?
+*When working with Wavefront OBJ files, having a robust Wavefront Material Template Library (MTL) parser can greatly enhance your workflow.
+WavefrontOBJ is designed to complement and work seamlessly with the [WavefrontMTL](https://github.com/StefanJohnsen/WavefrontMTL) repository.*
+
 ### OS Support
 - Windows
 - Linux
