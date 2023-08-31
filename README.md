@@ -215,7 +215,7 @@ obj::Load file(true);
 ```
 By default, this setting is set to false, and there's a specific reason for that choice. Triangulation involves a resource-intensive process, so the default false setting prevents unnecessary performance overhead.
 
-*See section [Triangulation](https://github.com/StefanJohnsen/WavefrontOBJ#triangulat-polygons) at the end of this document.*
+*See section [Triangulate polygons](https://github.com/StefanJohnsen/WavefrontOBJ#triangulate-polygons) at the end of this document.*
 
 ## Benchmark
 The benchmark was conducted on a computer with the following specifications:
