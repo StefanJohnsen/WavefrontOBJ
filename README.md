@@ -8,7 +8,7 @@ Empower your project with a self-contained header-only C++ 11 OBJ parser.
 
 This project is designed to be compatible with C++11 and utilizes solely C++ Standard Template Library (STL) components. It has been thoughtfully engineered to function independently without the need for any external libraries or dependencies. This design ensures the project remains self-contained, promoting simplicity and ease of integration into your development environment.<br>
 
-*If you require the use of **C++98**, see [Wavefront98](https://github.com/StefanJohnsen/Wavefront98) repository.
+*If you require the use of **C++98**, see [Wavefront98](https://github.com/StefanJohnsen/Wavefront98) repository.*
 
 ### Need a Wavefront Material Template Library (MTL) parser?
 *When working with Wavefront OBJ files, having a robust Wavefront Material Template Library (MTL) parser can greatly enhance your workflow.
