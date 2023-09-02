@@ -158,7 +158,7 @@ if (!obj.load("C:\\temp\\example.obj"))
 ```
 *WavfrontOBJ will copy all lists above.<br>
 Above obj.vertex list is double and therefor it will be copied into vertex list.<br>
-You can choose xyz, xyzw or xyzrgb. Ex. If you choose xyzrgb and obj.vertex don't have that format, your list will contains zero values for rgb {x,y,z,0,0,0}*
+You can choose xyz, xyzw or xyzrgb as third argument in copy function. Default is xyz.<br>Ex. If you choose xyzrgb and obj.vertex don't have that format, your list will contains zero values for rgb {x,y,z,0,0,0}*
 
 ### Load and get face colors
 WavefrontOBJ uses [WavefrontMTL](https://github.com/StefanJohnsen/WavefrontMTL) to simplify the process of loading materials and colors. To easily integrate this feature, copy the WavefrontMTL.h file from the WavefrontMTL repository into the same directory as WavefrontOBJ.h. This enables straightforward handling of materials and colors within your project.
