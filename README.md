@@ -121,8 +121,8 @@ std::vector<float> vertex;
 std::vector<float> normal;
 std::vector<float> texture;
 
-obj::copy(obj.vertex, vertex, obj::VertexFormat::xyz); // xyz is default
-obj::copy(obj.texture, texture, obj::TextureFormat::uvw); //uvw is defalt
+obj::copy(obj.vertex, vertex);
+obj::copy(obj.texture, texture);
 obj::copy(obj.normal, normal);
 ```
 *WavfrontOBJ will always try to move the list instead of copying the list.<br>
