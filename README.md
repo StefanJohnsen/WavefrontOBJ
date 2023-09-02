@@ -125,7 +125,7 @@ obj::copy(obj.vertex, vertex);
 obj::copy(obj.texture, texture);
 obj::copy(obj.normal, normal);
 ```
-*If all vertex in the above obj.vertex list has the same format as xyz, the obj.vertex list will be moved to vertex list.<br>
+*If all vertex in the above obj.vertex list has the same format as xyz, the obj.vertex list will be moved to vertex list (std::move).<br>
 WavfrontOBJ will always try to move the list instead of copying the list.*
 
 ### Load and get coordinates with different list types
