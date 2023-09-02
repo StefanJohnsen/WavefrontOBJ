@@ -110,7 +110,7 @@ int main()
 }
 ```
 
-### Load and get coordinates with the same list types
+### Load and get coordinates with the same list types (float)
 ```cpp
 obj::Load obj;
 
@@ -125,8 +125,8 @@ obj::copy(obj.vertex, vertex);
 obj::copy(obj.texture, texture);
 obj::copy(obj.normal, normal);
 ```
-*WavfrontOBJ will always try to move the list instead of copying the list.<br>
-If all vertex in the above obj.vertex list has the same format as xyz, the obj.vertex list will be moved to vertex list.*
+*If all vertex in the above obj.vertex list has the same format as xyz, the obj.vertex list will be moved to vertex list.<br>
+WavfrontOBJ will always try to move the list instead of copying the list.*
 
 ### Load and get coordinates with different list types
 ```cpp
@@ -157,7 +157,7 @@ if (!obj.load("C:\\temp\\example.obj"))
 
 ```
 *WavfrontOBJ will copy all lists above.<br>
-Above obj.vertex list will be copied into vertex list with format xyz (default).<br>
+Above obj.vertex list is double and therefor it will be copied into vertex list.<br>
 You can choose xyz, xyzw or xyzrgb. Ex. If you choose xyzrgb and obj.vertex don't have that format, your list will contains zero values for rgb {x,y,z,0,0,0}*
 
 ### Load and get face colors
