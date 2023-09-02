@@ -126,7 +126,7 @@ obj::copy(obj.texture, texture);
 obj::copy(obj.normal, normal);
 ```
 *If all vertex in the above obj.vertex list has the same format as xyz, the obj.vertex list will be moved to vertex list (std::move).<br>
-WavfrontOBJ will always try to move the list instead of copying the list.*
+WavfrontOBJ will always try to move the list instead of copying the list for better performence.*
 
 ### Load and get coordinates with different list types
 ```cpp
