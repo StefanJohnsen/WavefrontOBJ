@@ -198,7 +198,7 @@ std::vector<std::vector<float>> color;
 std::vector<std::vector<double>> color;
 ```
 
-### Triangulation
+## Triangulation
 In the Wavefront OBJ file format, 3D models are commonly described using triangles due to their simplicity and broad compatibility. However, the format also supports faces with polygons, which means more than three vertices. 
 While some applications struggle to handle these polygons, many prefer triangles for predictable rendering.
 
