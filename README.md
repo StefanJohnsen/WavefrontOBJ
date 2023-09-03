@@ -244,11 +244,11 @@ Details and terms of this license can be found at: https://www.gnu.org/licenses/
 For those who require the freedom to operate without the constraints of the GPL,<br>
 a commercial license can be obtained by contacting the author at stefan.johnsen@outlook.com
 
+--- 
+
 ## Need a Wavefront Material Template Library (MTL) parser?
 When working with Wavefront OBJ files, having a robust Wavefront Material Template Library (MTL) parser can greatly enhance your workflow.
 WavefrontOBJ is designed to complement and work seamlessly with the [WavefrontMTL](https://github.com/StefanJohnsen/WavefrontMTL) repository.
-
----
 
 ## Sample codes
 
