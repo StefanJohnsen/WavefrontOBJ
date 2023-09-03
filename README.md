@@ -202,8 +202,7 @@ std::vector<std::vector<double>> color;
 In the Wavefront OBJ file format, 3D models are commonly described using triangles due to their simplicity and broad compatibility. However, the format also supports faces with polygons, which means more than three vertices. 
 While some applications struggle to handle these polygons, many prefer triangles for predictable rendering.
 
-To bridge this gap, a solution known as triangulation is provided. This process converts polygons into triangles, ensuring compatibility with applications that only handle triangles. 
-This solution guarantees smoother integration and better rendering performance by automatically breaking down complex polygons. 
+*To bridge this gap, a solution known as triangulation is provided, see [TriangulateOBJ](https://github.com/StefanJohnsen/TriangulateOBJ) repository.*
 
 To perform triangulation on an OBJ file, specify the following object definition.
 ```cpp
