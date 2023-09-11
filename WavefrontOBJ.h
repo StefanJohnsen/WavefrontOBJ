@@ -431,7 +431,7 @@ namespace obj
 		document = new char* [rows];
 
 		if (document == nullptr)
-			return 0;
+			return false;
 
 		document[0] = &memory[0];
 
@@ -531,7 +531,7 @@ namespace obj
 
 		while (*p >= '0' && *p <= '9')
 		{
-			v = v * 10.0f + (*p - '0');
+			v = v * 10.0f + (float)(*p - '0');
 
 			p++;
 		}
@@ -544,7 +544,7 @@ namespace obj
 
 			while (*p >= '0' && *p <= '9')
 			{
-				v += (*p - '0') * factor;
+				v += factor * (float)(*p - '0');
 
 				factor *= 0.1f;
 
