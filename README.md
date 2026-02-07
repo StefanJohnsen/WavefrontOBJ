@@ -61,7 +61,7 @@ WavefrontOBJ supports various vertex and texture coordinate lists, allowing you 
   
 When copying data, these formats follow your coordinate data structures. 
 
-If your list aligns with any of the examples below, WavefrontOBJ allows you to copy the internal list to your list using a single copy operation.
+If your list aligns with any of the examples below, WavefrontOBJ allows you to move the internal list to your list using a single move operation.
 
 ```cpp
 std::vector<float> vertex;
