@@ -82,7 +82,7 @@ std::vector<std::vector<double>> normal;
 std::vector<std::vector<double>> texture;
 ```
 If not, you'll need to copy the internal list to your list manually.<br>
-*See section [Load and get vertex manually](https://github.com/StefanJohnsen/WavefrontOBJ#sample-code).*
+*See section [Load and get vertex manually](https://github.com/StefanJohnsen/WavefrontOBJ#Sample codes).*
 
 ## Examples
 
