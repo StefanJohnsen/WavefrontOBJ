@@ -24,9 +24,7 @@
   contacting the author at stefan.johnsen@outlook.com
  */
 
-#ifndef _CRT_SECURE_NO_WARNINGS
-#define _CRT_SECURE_NO_WARNINGS
-#endif 
+#pragma once
 
 #ifndef WAVEFRONT_OBJ
 #define WAVEFRONT_OBJ
@@ -59,11 +57,11 @@ namespace obj
 		std::vector<int> s;
 	};
 
-	struct Vertex : List<float> { };
+	struct Vertex : List<float> {};
 
-	struct Texture : List<float> { };
+	struct Texture : List<float> {};
 
-	struct Normal : List<float> { };
+	struct Normal : List<float> {};
 
 	struct Face
 	{
@@ -168,9 +166,14 @@ namespace obj
 
 	//-------------------------------------------------------------------------------------------------------
 
-	inline Load::Load(const bool triangulate) : file(nullptr), triangulate(triangulate) { }
+	inline Load::Load(const bool triangulate) : file(nullptr), triangulate(triangulate) {}
 
 	inline Load::~Load() { close(); }
+
+#if defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable:4996) // fopen is deprecated for MSVC, but its fast and OS independent
+#endif
 
 	inline bool Load::open(const std::string& open_path)
 	{
@@ -186,6 +189,10 @@ namespace obj
 
 		return false;
 	}
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#endif
 
 	inline void Load::clear()
 	{
@@ -1058,7 +1065,7 @@ namespace obj
 
 	inline VertexFormat vertexFormat(const size_t& size)
 	{
-		switch(size)
+		switch (size)
 		{
 		case 3: return xyz;
 		case 4: return xyzw;
@@ -1109,7 +1116,7 @@ namespace obj
 
 	size_t copy(Vertex& source, std::vector<float>& target, const VertexFormat format = xyz)
 	{
-		if(move(source, target, format))
+		if (move(source, target, format))
 			return target.size();
 
 		auto vertex = source.v.begin();
