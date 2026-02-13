@@ -1433,22 +1433,7 @@ namespace obj
 		return target.size();
 	}
 
-	bool move(List<int>& source, std::vector<int>& target)
-	{
-		if (source.empty()) return true;
-
-		target = std::move(source.v);
-
-		source.clear();
-
-		return true;
-	}
-
-	inline size_t copy(List<int>& source, std::vector<int>& target)
-	{
-		return move(source, target) ? target.size() : 0;
-	}
-
+	// Face texture, normal or vertex indices
 	inline size_t copy(const List<int>& source, std::vector<std::vector<int>>& target)
 	{
 		auto item = source.v.begin();
