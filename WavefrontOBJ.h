@@ -33,10 +33,7 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
-#include <tuple>
 #include <map>
-#include <sys/stat.h>
-#include <cassert>
 
 namespace obj
 {
@@ -185,7 +182,7 @@ namespace obj
 
 		if (file) return true;
 
-		printf("Impossible to open obj the file !\n");
+		std::cerr << "Impossible to open obj the file !" << '\n';
 
 		return false;
 	}
@@ -1433,8 +1430,8 @@ namespace obj
 		return target.size();
 	}
 
-	// Face texture, normal or vertex indices
-	inline size_t copy(const List<int>& source, std::vector<std::vector<int>>& target)
+	template <typename T>
+	inline size_t copy(const List<T>& source, std::vector<std::vector<T>>& target)
 	{
 		auto item = source.v.begin();
 
@@ -1446,6 +1443,182 @@ namespace obj
 		}
 
 		return target.size();
+	}
+
+	// Build polygons from loaded OBJ faces.
+	// - 'obj': loaded geometry (Load).
+	// - 'T'  : point type; must be constructible as `T(float x, float y, float z)`.
+	// - Order of returned polygons matches face order in the file.
+	//
+	// Returns:
+	// - `std::vector<std::vector<T>>` where each inner vector is the sequence of points for one face.
+	inline size_t getPolygons(const Load& obj, std::vector<std::vector<int>>& polygons, std::vector<std::vector<float>>& points)
+	{
+		obj::copy(obj.vertex, points);
+		obj::copy(obj.face.vertex, polygons);
+
+		return polygons.size();
+	}
+
+	template <typename T>
+	inline size_t getPolygons(const Load& obj, std::vector<std::vector<int>>& polygons, std::vector<std::vector<T>>& points)
+	{
+		polygons.clear();
+		points.clear();
+
+		std::vector<std::vector<float>> vertex;
+
+		if (getPolygons(obj, polygons, vertex) == 0)
+			return {};
+
+		points.reserve(vertex.size());
+
+		for (const auto& point : vertex)
+			points.emplace_back(T(point[0], point[1], point[2]));
+
+		return polygons.size();
+	}
+
+	// Loads an OBJ file and fills `polygons` (face index lists) and `points` (converted vertex positions).
+	// - Template `T`: must be constructible as `T(float x, float y, float z)`.
+	// - 'file': path to the OBJ file to load.
+	// - 'polygons': output, cleared and filled with one `std::vector<int>` per face on success.
+	// - 'points': output, cleared and filled with one `T` per vertex on success.
+	// - 'triangulate': when true the underlying `Load` is created with triangulation enabled; faces
+	//   with more than 3 vertices will be triangulated during parsing. Default is false.
+	// - Behavior:
+	//   - Constructs `Load obj(triangulate)` and calls `obj.load(file)`.
+	//   - On success forwards to `getPolygons<T>(obj, polygons, points)` to build outputs.
+	//   - On failure clears `polygons` and `points` and returns 0.
+	// - Notes:
+	//   - Indexing issues (negative or out-of-range indices) are reported by lower-level functions
+	//     (they skip offending faces and emit warnings to `std::cerr`).
+	//   - No exceptions are thrown by this function; use the return value to detect load errors.
+	// Returns:
+	// - number of polygons written into `polygons` (0 on error).
+
+	template <typename T>
+	inline size_t getPolygons(const std::string& file, std::vector<std::vector<int>>& polygons, std::vector<std::vector<T>>& points, bool triangulate = false)
+	{
+		Load obj(triangulate);
+
+		if (obj.load(file))
+			return getPolygons<T>(obj, polygons, points);
+
+		polygons.clear();
+		points.clear();
+
+		return 0;
+	}
+
+	inline size_t getPolygons(const Load& obj, std::vector<std::vector<std::vector<float>>>& polygons)
+	{
+		polygons.clear();
+
+		std::vector<std::vector<float>> vertex;
+		obj::copy(obj.vertex, vertex, obj::xyz);
+
+		if (vertex.empty())
+			return {};
+
+		std::vector<std::vector<int>> faces;
+		obj::copy(obj.face.vertex, faces);
+
+		if (faces.empty())
+			return {};
+
+		polygons.reserve(faces.size());
+
+		for (const auto& face : faces)
+		{
+			std::vector<std::vector<float>> polygon;
+			polygon.reserve(face.size());
+
+			for (size_t i = 0; i < face.size(); ++i)
+			{
+				if (face[i] < 0)
+				{
+					std::cerr << "Warning: Negative vertex index " << face[i] << " encountered\n";
+					polygon.clear();
+					break;
+				}
+
+				const auto index = static_cast<size_t>(face[i]);
+
+				if (index < vertex.size())
+					polygon.emplace_back(vertex[index]);
+				else
+				{
+					std::cerr << "Warning: Vertex index " << index << " is out of bounds for vertex list size " << vertex.size() << '\n';
+					polygon.clear();
+					break;
+				}
+			}
+
+			if (polygon.empty())
+				continue;
+
+			polygons.emplace_back(std::move(polygon));
+		}
+
+		return polygons.size();
+	}
+
+	template <typename T>
+	inline size_t getPolygons(const Load& obj, std::vector<std::vector<T>>& polygons)
+	{
+		polygons.clear();
+
+		std::vector<std::vector<std::vector<float>>> list;
+
+		if (getPolygons(obj, list) == 0)
+			return {};
+
+		polygons.reserve(list.size());
+
+		for (const auto& item : list)
+		{
+			std::vector<T> polygon;
+			polygon.reserve(item.size());
+
+			for (const auto& point : item)
+				polygon.emplace_back(T(point[0], point[1], point[2]));
+
+			polygons.emplace_back(std::move(polygon));
+		}
+
+		return polygons.size();
+	}
+
+	// Loads an OBJ file and fills `polygons` with faces converted to point type `T`.
+	// - Template `T`: must be constructible as `T(float x, float y, float z)`.
+	// - 'file': path to the OBJ file to load.
+	// - 'polygons': output vector; cleared and filled with one polygon per face on success.
+	// - 'triangulate': when true the underlying `Load` is created with triangulation enabled;
+	//   faces with more than 3 vertices will be triangulated during parsing. Default is false.
+	// - Behavior:
+	//   - Constructs `Load obj(triangulate)` and calls `obj.load(file)`.
+	//   - On success calls `getPolygons<T>(obj, polygons)` to build the polygons.
+	//   - On failure clears `polygons` and returns 0.
+	// - Notes:
+	//   - Underlying indexing errors (negative or out-of-range indices) are handled
+	//     by the lower-level `getPolygons` overloads: offending faces are skipped and
+	//     a warning is emitted to `std::cerr`.
+	//   - No exceptions are thrown by this function (it returns 0 on load failure).
+	// Returns:
+	// - number of polygons written into `polygons` (0 on error).
+
+	template <typename T>
+	inline size_t loadPolygons(const std::string& file, std::vector<std::vector<T>>& polygons, bool triangulate = false)
+	{
+		Load obj(triangulate);
+
+		if (obj.load(file))
+			return getPolygons<T>(obj, polygons);
+
+		polygons.clear();
+
+		return 0;
 	}
 }
 
