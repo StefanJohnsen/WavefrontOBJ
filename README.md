@@ -272,9 +272,7 @@ for (const auto& size : obj.vertex.s)
 			double x = *(vertex + 0);
 			double y = *(vertex + 1);
 			double z = *(vertex + 2);
-
 //			... your code here
-
 			break;
 		}
 	
@@ -284,6 +282,7 @@ for (const auto& size : obj.vertex.s)
 			double y = *(vertex + 1);
 			double z = *(vertex + 2);
 			double w = *(vertex + 3);
+//          ...
 			break;
 		}
 	
@@ -295,6 +294,7 @@ for (const auto& size : obj.vertex.s)
 			double r = *(vertex + 3);
 			double g = *(vertex + 4);
 			double b = *(vertex + 5);
+//          ...
 			break;
 		}
 	}
@@ -322,6 +322,7 @@ for (const auto& size : obj.texture.s)
 		{
 			double u = *(texture + 0);
 			double v = *(texture + 1);
+//          ...
 			break;
 		}
 
@@ -330,6 +331,7 @@ for (const auto& size : obj.texture.s)
 			double u = *(texture + 0);
 			double v = *(texture + 1);
 			double w = *(texture + 2);
+//          ...
 			break;
 		}
 	}
@@ -352,7 +354,7 @@ for (const auto& size : obj.normal.s)
 	double x = *(normal + 0);
 	double y = *(normal + 1);
 	double z = *(normal + 2);
-
+//  ...
 	normal += size;
 }
 ```
