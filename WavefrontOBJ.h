@@ -1430,6 +1430,24 @@ namespace obj
 		return target.size();
 	}
 
+	enum FaceFormat
+	{
+		triangle = 3,
+		quadrilateral = 4,
+		polygon
+	};
+
+	inline FaceFormat faceFormat(const size_t& size)
+	{
+		switch (size)
+		{
+		case 3: return triangle;
+		case 4: return quadrilateral;
+		}
+
+		return polygon;
+	}
+
 	template <typename T>
 	inline size_t copy(const List<T>& source, std::vector<std::vector<T>>& target)
 	{
