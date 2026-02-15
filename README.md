@@ -252,6 +252,8 @@ int main()
 <img width="968" height="606" alt="image" src="https://github.com/user-attachments/assets/2dee5b3f-75d8-4f62-a8c1-de4489f049da" />
 WavefrontOBJ stores both OBJ “records” (v/vt/vn) and variable-length index lists (f/l/p) using a compact data structure called List<T>. It contains one flat buffer v that appends all values consecutively, and a separate size list s that records how many elements belong to each logical segment (e.g., one face). This layout is cache-friendly and avoids the allocation/indirection overhead of std::vector<std::vector<...>>.
 
+***Data is stored as a segmented flat array (CSR-style): a contiguous value buffer plus per-segment sizes.***
+
 For faces, all vertex indices are stored back-to-back in face.vertex.v, while face.vertex.s stores the number of indices per face (3 for triangles, 4 for quads, and N for polygons). When iterating, you walk s and keep a running offset into v to extract the index span for each face. The exact same pattern is used for face.texture and face.normal when OBJ lines include v/vt/vn.
 
 For vertices, normals, and texture coordinates the principle is identical: v holds all floats in a single contiguous array, and s describes the per-line format/arity (e.g., v may be 3/4/6 floats, vt may be 1/2/3, and vn is typically 3). This makes it easy to copy/move data into your own structures and to detect whether the file mixes formats.
