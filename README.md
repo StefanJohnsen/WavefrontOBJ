@@ -409,6 +409,52 @@ for (const auto& size : obj.normal.s)
 }
 ```
 
+### Load and get faces manually
+```cpp
+obj::Load obj;
+
+if (!obj.load("C:\\temp\\example.obj"))
+	return 1;
+
+	auto face = obj.face.vertex.v.begin();
+
+	for (const auto& size : obj.face.vertex.s)
+	{
+		obj::FaceFormat format = obj::faceFormat(size);
+
+		switch (format)
+		{
+			case obj::triangle:
+			{
+				int p0 = *(face + 0);
+				int p1 = *(face + 1);
+				int p2 = *(face + 2);
+				//			... your code here
+				break;
+			}
+
+			case obj::quadrilateral:
+			{
+				int p0 = *(face + 0);
+				int p1 = *(face + 1);
+				int p2 = *(face + 2);
+				int p3 = *(face + 3);
+				//          ...
+				break;
+			}
+
+			case obj::polygon:
+			{
+				std::vector<int> points(face, face + size);
+				//          ...
+				break;
+			}
+		}
+
+		face += size;
+	}
+```
+
 ## Benchmark code
 This code snippet demonstrates the file-loading performance for OBJ and MTL files. The program loads each file 10 times and calculates the average time taken for loading. The resulting average loading times are then displayed, providing insights into the efficiency of loading processes enabled by the WavefrontOBJ and WavefrontMTL libraries.
 
