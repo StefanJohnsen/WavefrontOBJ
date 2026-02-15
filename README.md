@@ -1,4 +1,3 @@
-![Banner](banner.jpg)
 # WavefrontOBJ
 Empower your project with a self-contained header-only C++ 11 OBJ parser.
 
