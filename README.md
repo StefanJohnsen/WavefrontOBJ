@@ -200,14 +200,7 @@ std::vector<std::vector<double>> color;
 
 ### Load and get all polygons
 
-You can get all polygons from a obj file using your own point type T (struct/class).
-
-Requirements:
-
-- T must be constructible as: T(x, y, z)
-- x, y, z can be float or double (match what you load / store)
-
-Here is a example point type:
+You can get all polygons from a obj file using your own point type (struct or class).
 
 ```C++
 struct Point
@@ -219,6 +212,10 @@ struct Point
 	float z;
 };
 ```
+Requirements:
+
+- Point must be constructible as: Point(x, y, z)
+- x, y, z can be float or double (match what you load / store)
 
 Full code:
 
