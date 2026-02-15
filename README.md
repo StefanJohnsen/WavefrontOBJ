@@ -198,6 +198,56 @@ std::vector<std::vector<float>> color;
 std::vector<std::vector<double>> color;
 ```
 
+### Load and get all polygons
+
+You can get all polygons from a obj file using your own point type (struct or class).
+
+```C++
+struct Point
+{
+	Point() : x(0.f), y(0.f), z(0.f) {}
+	Point(const float& x, const float& y, const float& z) : x(x), y(y), z(z) {}
+	float x;
+	float y;
+	float z;
+};
+```
+Requirements:
+
+- Point must be constructible as: Point(x, y, z)
+- x, y, z can be float or double (match what you load / store)
+
+Full code:
+
+```C++
+#include <iostream>
+#include "WavefrontOBJ.h"
+
+struct Point
+{
+	Point() : x(0.f), y(0.f), z(0.f) {}
+	Point(const float& x, const float& y, const float& z) : x(x), y(y), z(z) {}
+	float x;
+	float y;
+	float z;
+};
+
+int main()
+{
+    const bool triangulate = true;
+
+	std::vector<std::vector<Point>> polygons;
+
+	if (obj::loadPolygons("C:\\temp\\example.obj", polygons, triangulate) == 0)
+		return 1;
+
+	std::cout << "The file contains " << polygons.size() << " polygons." << std::endl;
+
+	return 0;
+}
+
+```
+
 ## Triangulation
 In the Wavefront OBJ file format, 3D models are commonly described using triangles due to their simplicity and broad compatibility. However, the format also supports faces with polygons, which means more than three vertices. 
 While some applications struggle to handle these polygons, many prefer triangles for predictable rendering.
