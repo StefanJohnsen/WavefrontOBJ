@@ -250,7 +250,7 @@ int main()
 
 ## How WavefrontOBJ Stores OBJ Data Efficiently with List<T>
 <img width="968" height="606" alt="image" src="https://github.com/user-attachments/assets/2dee5b3f-75d8-4f62-a8c1-de4489f049da" />
-WavefrontOBJ stores both OBJ “records” (v/vt/vn) and variable-length index lists (f/l/p) using a compact data structure called List<T>. It contains one flat buffer v that appends all values consecutively, and a separate size list s that records how many elements belong to each logical segment (e.g., one face). This layout is cache-friendly and avoids the allocation/indirection overhead of std::vector<std::vector<...>>.
+WavefrontOBJ stores both OBJ “records” (v/vt/vn) and variable-length index lists (face/line/point) using a compact data structure called List<T>. It contains one flat buffer v that appends all values consecutively, and a separate size list s that records how many elements belong to each logical segment (e.g., one face). This layout is cache-friendly and avoids the allocation/indirection overhead of std::vector<std::vector<...>>.
 
 ***Data is stored as a segmented flat array (CSR-style): a contiguous value buffer plus per-segment sizes.***
 
